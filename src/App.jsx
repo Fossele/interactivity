@@ -1,20 +1,35 @@
 import { useState } from 'react'
 import './App.css'
 import data from "./data.json"
-import reply from "./images/icon-reply.svg"
-import del from "./images/icon-delete.svg"
-import edit from "./images/icon-edit.svg"
-import plus from "./images/icon-plus.svg"
-import minus from "./images/icon-minus.svg"
+import reply from "/images/icon-reply.svg"
+import del from "/images/icon-delete.svg"
+import edit from "/images/icon-edit.svg"
+import plus from "/images/icon-plus.svg"
+import minus from "/images/icon-minus.svg"
+
+//developement plan
+
+/*
+
+let's build now the add comment tap
+let display our content from the json file
+
+
+*/ 
+
+
+const {currentUser, comments} = data;
 
 const Comment = ({text, setWriting, setUpdate}) => {
   const [count, setCount] = useState(0);
   const [hello, setHello] = useState(false);
+  const [del, setDelete] = useState(false);
   //to get the exact comment to delete we will create a state called comment id
   const [commentId, setCommentId] = useState([]);
 
   return (
-    <div className='comment-container'>
+    <>
+    {!del &&<div className='comment-container'>
 
       <div className='counter'>
         <button onClick={()=>{setCount(count+1)}}> <img src={plus}/> </button>
@@ -35,12 +50,15 @@ const Comment = ({text, setWriting, setUpdate}) => {
            <img src={reply}/> 
             </button> :<div>
           <button onClick={()=>{setWriting(true); setUpdate(true)}}>  <img src={edit}/> edit</button>
-          <button><img src={del}/> delete</button>
+          <button onClick={()=>setDelete(true)}><img src={del}/> delete</button>
           </div>}
         </div>
         <div className='comment-content'>{text}</div>
       </div>
-    </div>);
+    </div>
+}
+    </>
+    );
 }
 
 
@@ -57,13 +75,39 @@ function handleInput(e){
 
   return(
     <div>
-  
-      {writing ?<><img src={plus}/><input onChange={handleInput} value={text}/> {update? <button onClick={()=>{setWriting(false); setUpdate(false)}}>Update</button>: <button onClick={()=>setWriting(false)}>REPLY</button>}</>:<Comment text={text} setWriting = {setWriting} setUpdate={setUpdate}/>}
-
+      {writing ?<>
+      <img src={plus}/>
+      <input onChange={handleInput} value={text}/>
+       {update?<> <button onClick={()=>{setWriting(false); setUpdate(false)}}>
+        <img src={edit}/>Update
+        </button>  <button onClick={()=>{setWriting(false); setUpdate(false)}}>
+       <img src={del}/> Delete
+        </button></>: <button onClick={()=>setWriting(false)}>
+                REPLY
+                </button>}
+                </>:<Comment text={text} setWriting = {setWriting} setUpdate={setUpdate}/>}
     </div>
+    
+  
   );
 }
 
+function Addcomment(){
+const [text, setText] = useState("");
+
+function handleInput(e){
+ setText(e.target.value);
+}
+
+  return(
+  <div>
+    <img src={plus}/>
+    <input onChange={handleInput} value={text}/>  
+    <button>REPLY</button>
+  </div>
+    
+  )
+}
 
 const Confirmation = () => {
 
@@ -82,11 +126,31 @@ const Confirmation = () => {
 
 
 function App() {
-  console.log(data.comments);
+  //console.log(copyData.comments[0].id+ "hey");
+  const array = structuredClone(data.comments);
+  console.log(currentUser);
+  console.log(comments);
+
   return (
     <>
-      <Reply/>
-    </>
+     <img src={data.currentUser.image.png.replace('.', '')}/>
+
+     <div>
+      {
+       comments.map((elt) => (
+       <div key={elt.id}>
+      <img src={currentUser.image.png.replace('.', '')} alt="error"/><p>{elt.content}</p>
+      {!(elt.replies.length == 0)&&<p>not cool</p>}
+       </div>
+       ))
+      } 
+     </div>
+   
+
+      
+
+      <Addcomment/>
+     </>
   )
 }
 
