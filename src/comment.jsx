@@ -8,6 +8,8 @@ import plus from "/images/icon-plus.svg"
 import minus from "/images/icon-minus.svg"
 import "./App.css"
 
+import { AddReply } from "./reply.jsx";
+
 const Counter = ({ setCount, count }) => {
     return (
         <div className='counter'>
@@ -23,6 +25,7 @@ const Counter = ({ setCount, count }) => {
 const Comment = ({ comment }) => {
 
     const [count, setCount] = useState(0);
+    const [createReply, setCreateReply] = useState(false);
     /*const [hello, setHello] = useState(true);
     const [del, setDelete] = useState(false);
     //to get the exact comment to delete we will create a state called comment id
@@ -30,6 +33,7 @@ const Comment = ({ comment }) => {
      <img src={currentUser.image.png.replace('.', '')} alt="error"/>
   */
     return (
+        
         <>     
                 <Counter setCount={setCount} count={count} />   
                 <div className='comment'>
@@ -46,7 +50,7 @@ const Comment = ({ comment }) => {
                         </div>
 
                         <span>
-                            <button className='reply'>
+                            <button className='reply' onClick={()=>setCreateReply(true)}>
                                 <img src={reply} />
                                 <p>reply</p>
                             </button>
@@ -54,7 +58,11 @@ const Comment = ({ comment }) => {
                     </div>
                     <div className='content'>{comment.content} </div>
                 </div>
+                {
+                    createReply && <AddReply />
+                }
         </>
+        
     );
 }
 

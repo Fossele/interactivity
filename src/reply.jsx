@@ -6,6 +6,7 @@ import minus from "/images/icon-minus.svg";
 import plus from "/images/icon-plus.svg";
 import replyIcon from "/images/icon-reply.svg"
 import { useState } from 'react'
+import data from "./data.json"
 
 const { currentUser, comments } = data;
 
@@ -20,9 +21,9 @@ const Counter = ({ setCount, count }) => {
 }
 
 export const UserReply = ({ reply }) => {
-
+    
     const [count, setCount] = useState(0);
-
+     const [createReply, setCreateReply] = useState(false);
     return (
         <>
             <Counter setCount={setCount} count={count} />
@@ -40,7 +41,7 @@ export const UserReply = ({ reply }) => {
                     </div>
 
                     <span>
-                        <button className='reply'>
+                        <button className='reply'  onClick={()=>setCreateReply(true)}>
                             <img src={replyIcon} />
                             <p>reply</p>
                         </button>
@@ -48,6 +49,9 @@ export const UserReply = ({ reply }) => {
                 </div>
                 <div className='content'><p>@{reply.replyingTo}</p>{reply.content}</div>
             </div>
+             {
+                    createReply && <AddReply />
+                }
         </>
     );
 }
@@ -106,7 +110,7 @@ export const CurrentUserReply = ({ reply }) => {
     );
 }
 
-function AddReply() {
+export function AddReply() {
   const [text, setText] = useState("");
 
   function handleInput(e) {
@@ -118,7 +122,7 @@ function AddReply() {
     <div className='add-comment'>
       <img src={currentUser.image.png.replace('.', '')} alt="error" />
       <textarea onChange={handleInput} value={text} placeholder='add a comment...'></textarea>
-      <button>SEND</button>
+      <button>Reply</button>
     </div>
   )
 }

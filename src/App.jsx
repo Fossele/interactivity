@@ -9,7 +9,7 @@ import minus from "/images/icon-minus.svg"
 
 //components
 import Comment from './comment.jsx';
-import { UserReply, CurrentUserReply } from './reply.jsx'
+import { UserReply, CurrentUserReply, AddReply } from './reply.jsx'
 import AddComment from './addcomment.jsx'
 
 
@@ -26,41 +26,6 @@ let display our content from the json file
 */
 
 
-
-
-const AddReply = () => {
-
-  const [text, setText] = useState("");
-  const [update, setUpdate] = useState(false)
-  const [writing, setWriting] = useState(true);
-
-
-  function handleInput(e) {
-    setText(e.target.value);
-  }
-
-  return (
-    <div className='reply-field'>
-      {writing ? <>
-        <img src={plus} />
-        <input onChange={handleInput} value={text} />
-
-        {update ? <>
-          <button onClick={() => { setWriting(false); setUpdate(false) }}>
-            <img src={edit} />Update
-          </button>
-          <button onClick={() => { setWriting(false); setUpdate(false) }}>
-            <img src={del} /> Delete
-          </button>
-        </> : <button onClick={() => setWriting(false)}>
-          REPLY
-        </button>}
-      </> : <Comment text={text} setWriting={setWriting} setUpdate={setUpdate} />}
-    </div>
-
-
-  );
-}
 
 const Confirmation = () => {
 
