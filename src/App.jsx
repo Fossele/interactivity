@@ -6,8 +6,11 @@ import delet from "/images/icon-delete.svg"
 import edit from "/images/icon-edit.svg"
 import plus from "/images/icon-plus.svg"
 import minus from "/images/icon-minus.svg"
+
+//components
 import Comment from './comment.jsx';
-import {UserReply, CurrentUserReply} from './reply.jsx'
+import { UserReply, CurrentUserReply } from './reply.jsx'
+import AddComment from './addcomment.jsx'
 
 
 const { currentUser, comments } = data;
@@ -25,7 +28,7 @@ let display our content from the json file
 
 
 
-const Reply = () => {
+const AddReply = () => {
 
   const [text, setText] = useState("");
   const [update, setUpdate] = useState(false)
@@ -59,23 +62,6 @@ const Reply = () => {
   );
 }
 
-function Addcomment() {
-  const [text, setText] = useState("");
-
-  function handleInput(e) {
-    setText(e.target.value);
-
-  }
-
-  return (
-    <div className='add-comment'>
-      <img src={currentUser.image.png.replace('.', '')} alt="error" />
-      <textarea onChange={handleInput} value={text} placeholder='add a comment...'></textarea>
-      <button>SEND</button>
-    </div>
-  )
-}
-
 const Confirmation = () => {
 
   return (
@@ -94,13 +80,11 @@ const Confirmation = () => {
 
 function App() {
   //console.log(copyData.comments[0].id+ "hey");
-  const array = structuredClone(data.comments);
-  console.log(currentUser);
-
+  
 
   return (
-      <div className='app'>
-        {/*<img src={data.currentUser.image.png.replace('.', '')} />
+    <div className='app'>
+      {/*<img src={data.currentUser.image.png.replace('.', '')} />
       <div>
         {
           comments.map((elt) => (
@@ -112,28 +96,26 @@ function App() {
           ))
         }
       </div>*/}
-        {
-          comments.map((comment) => (
-            <div key={comment.id} className='comment-container'>
-              <Comment comment={comment} />
-              {
-                comment.replies.map((reply) => (
-                  <div key={reply.id} className='reply-container'>
-                    
-                    {reply.user.username===currentUser.username? <CurrentUserReply reply={reply} />: <UserReply reply={reply} />}
+      {
+        comments.map((comment) => (
+          <div key={comment.id} className='comment-container'>
+            <Comment comment={comment} />
+            {
+              comment.replies.map((reply) => (
+                <div key={reply.id} className='comment-container'>
 
-                  </div>)
-                )}
-            </div>)
-          )}
+                  {reply.user.username === currentUser.username ? <CurrentUserReply reply={reply} /> : <UserReply reply={reply} />}
 
+                </div>)
+              )}
+          </div>)
+        )}
 
-
-        {/** <Addcomment />*/}
-      </div>
-      )
+      <AddComment/>
+    </div>
+  )
 }
 
 
 
-      export default App
+export default App
